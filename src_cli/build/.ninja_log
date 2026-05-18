@@ -1,8 +1,0 @@
-# ninja log v7
-1	3998	1779093461160666521	CMakeFiles/nat_type_tester_cli.dir/main.cpp.o	b5f0faf34e26ca4
-2	4097	1779093461161125594	CMakeFiles/nat_type_tester_cli_tests.dir/tests.cpp.o	496f14bffd963e75
-1	4104	1779093461160125583	CMakeFiles/nat_type_tester_cli_lib.dir/discovery.cpp.o	22bd583a2d9bf2b1
-0	5529	1779093461159125571	CMakeFiles/nat_type_tester_cli_lib.dir/stun.cpp.o	926fdf27bd6c8721
-5529	12358	1779093466688184328	libnat_type_tester_cli_lib.a	4ff3b21322c398be
-12358	12429	1779093473517946457	nat_type_tester_cli_tests	eabca84f8f22e597
-12358	12430	1779093473516264501	nat_type_tester_cli	c2366f05772bf93d
