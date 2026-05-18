@@ -143,7 +143,7 @@ int main(int argc, char** argv) {
             fail("Unknown subcommand: " + args.command);
         }
 
-        std::uint16_t default_port = args.command == "rfc3489" ? 3478 : 3478;
+        constexpr std::uint16_t default_port = 3478;
         auto [server_host, server_port] = natcli::split_host_port(require_option(args, "--server"), default_port);
         TransportType transport = args.command == "rfc3489" ? TransportType::Udp : parse_transport(args);
         int socket_type = transport == TransportType::Udp ? SOCK_DGRAM : SOCK_STREAM;

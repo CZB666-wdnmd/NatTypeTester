@@ -72,7 +72,6 @@ void expect(bool condition) {
 void test_xor_mapped_parsing() {
     std::array<std::uint8_t, 12> txid{0xb7, 0xe7, 0xa7, 0x01, 0xbc, 0x34, 0xd6, 0x86, 0xfa, 0x87, 0xdf, 0xae};
     StunMessage message = response_message(endpoint(192, 0, 2, 1, 32853), std::nullopt, true, 0x2112A442u, txid);
-    message.transaction_id = txid;
     std::optional<IpEndpoint> parsed = get_xor_mapped_address_attribute(message);
     expect(parsed.has_value());
     expect(*parsed == endpoint(192, 0, 2, 1, 32853));
