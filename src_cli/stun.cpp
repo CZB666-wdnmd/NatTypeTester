@@ -155,7 +155,7 @@ bool is_ip_literal(const std::string& value) {
     return inet_pton(AF_INET, value.c_str(), &address4) == 1 || inet_pton(AF_INET6, value.c_str(), &address6) == 1;
 }
 
-std::vector<std::uint8_t> parse_hex_cookie_and_txid(const StunMessage& message) {
+std::vector<std::uint8_t> encode_cookie_and_txid(const StunMessage& message) {
     std::vector<std::uint8_t> bytes(16);
     bytes[0] = static_cast<std::uint8_t>((message.magic_cookie >> 24) & 0xFFu);
     bytes[1] = static_cast<std::uint8_t>((message.magic_cookie >> 16) & 0xFFu);
@@ -182,7 +182,7 @@ std::optional<IpEndpoint> parse_address_attribute(const StunMessage& message, st
         std::copy_n(attribute.value.begin() + 4, static_cast<long>(endpoint.address_length), endpoint.address.begin());
 
         if (xor_value) {
-            std::vector<std::uint8_t> mask = parse_hex_cookie_and_txid(message);
+            std::vector<std::uint8_t> mask = encode_cookie_and_txid(message);
             port ^= static_cast<std::uint16_t>(message.magic_cookie >> 16);
             for (std::size_t index = 0; index < endpoint.address_length; ++index) {
                 endpoint.address[index] ^= mask[index];

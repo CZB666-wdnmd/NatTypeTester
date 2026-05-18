@@ -157,7 +157,7 @@ int main() {
         test_rfc3489_symmetric();
         test_rfc5389_mapping_endpoint_independent();
         test_rfc5389_filtering_address_dependent();
-        std::cout << "All nat_type_tester_cli tests passed\n";
+        std::cout << "All nat_type_tester_cli_tests passed\n";
         return 0;
     } catch (const std::exception& exception) {
         std::cerr << exception.what() << '\n';
