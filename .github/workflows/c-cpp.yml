@@ -1,0 +1,26 @@
+name: C/C++ CLI
+
+on:
+  push:
+    branches:
+      - master
+      - renovate/**
+    tags:
+      - "*"
+  pull_request:
+
+jobs:
+  build-cli:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build libssl-dev
+      - name: Configure
+        run: cmake -S src_cli -B src_cli/build -G Ninja -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build src_cli/build --config Release
+      - name: Test
+        run: ctest --test-dir src_cli/build --output-on-failure

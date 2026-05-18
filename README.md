@@ -16,6 +16,16 @@
 - [x] IPv4
 - [x] IPv6
 
+## Standalone Linux CLI
+
+The standalone C++ CLI rewrite lives in [`src_cli`](src_cli) and builds a Linux x64 executable without any .NET runtime dependency.
+
+```bash
+cmake -S src_cli -B src_cli/build -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build src_cli/build --config Release
+ctest --test-dir src_cli/build --output-on-failure
+```
+
 ## Transmission Protocol
 
 - [x] UDP
