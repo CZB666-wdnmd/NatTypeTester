@@ -24,3 +24,9 @@ jobs:
         run: cmake --build src_cli/build --config Release
       - name: Test
         run: ctest --test-dir src_cli/build --output-on-failure
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nat_type_tester_cli_build
+          path: src_cli/build
+          if-no-files-found: error
