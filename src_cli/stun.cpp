@@ -600,16 +600,18 @@ std::optional<StunResponse> TcpSession::request(const StunDiscoveryAction& actio
                 throw std::runtime_error("SSL_new failed");
             }
 
-            if (is_ip_literal(server_name_)) {
-                X509_VERIFY_PARAM* param = SSL_get0_param(ssl.get());
-                if (X509_VERIFY_PARAM_set1_ip_asc(param, server_name_.c_str()) != 1 && !skip_certificate_validation_) {
-                    throw std::runtime_error("failed to configure TLS IP verification");
-                }
-            } else {
-                SSL_set_tlsext_host_name(ssl.get(), server_name_.c_str());
-                X509_VERIFY_PARAM* param = SSL_get0_param(ssl.get());
-                if (X509_VERIFY_PARAM_set1_host(param, server_name_.c_str(), 0) != 1 && !skip_certificate_validation_) {
-                    throw std::runtime_error("failed to configure TLS hostname verification");
+            if (!skip_certificate_validation_) {
+                if (is_ip_literal(server_name_)) {
+                    X509_VERIFY_PARAM* param = SSL_get0_param(ssl.get());
+                    if (X509_VERIFY_PARAM_set1_ip_asc(param, server_name_.c_str()) != 1) {
+                        throw std::runtime_error("failed to configure TLS IP verification");
+                    }
+                } else {
+                    SSL_set_tlsext_host_name(ssl.get(), server_name_.c_str());
+                    X509_VERIFY_PARAM* param = SSL_get0_param(ssl.get());
+                    if (X509_VERIFY_PARAM_set1_host(param, server_name_.c_str(), 0) != 1) {
+                        throw std::runtime_error("failed to configure TLS hostname verification");
+                    }
                 }
             }
 

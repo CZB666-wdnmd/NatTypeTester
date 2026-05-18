@@ -4,6 +4,10 @@
 
 namespace natcli {
 
+namespace {
+constexpr std::uint32_t kClassicStunMagicCookie = 0x00000000u;
+}
+
 Stun3489NatTypeDiscovery::Stun3489NatTypeDiscovery(IpEndpoint server) : server_(std::move(server)) {}
 
 StunDiscoveryAction Stun3489NatTypeDiscovery::create_query() {
@@ -48,7 +52,7 @@ std::optional<StunDiscoveryAction> Stun3489NatTypeDiscovery::handle_test1(const 
     }
 
     phase_ = Phase::Test2;
-    return StunDiscoveryAction{natcli::create_binding_request(0x00000000u, true, true), server_};
+    return StunDiscoveryAction{natcli::create_binding_request(kClassicStunMagicCookie, true, true), server_};
 }
 
 std::optional<StunDiscoveryAction> Stun3489NatTypeDiscovery::handle_test2(const std::optional<StunResponse>& response) {
@@ -107,7 +111,7 @@ std::optional<StunDiscoveryAction> Stun3489NatTypeDiscovery::handle_test1_2(cons
     }
 
     phase_ = Phase::Test3;
-    return StunDiscoveryAction{natcli::create_binding_request(0x00000000u, false, true), server_};
+    return StunDiscoveryAction{natcli::create_binding_request(kClassicStunMagicCookie, false, true), server_};
 }
 
 std::optional<StunDiscoveryAction> Stun3489NatTypeDiscovery::handle_test3(const std::optional<StunResponse>& response) {
@@ -129,7 +133,7 @@ std::optional<StunDiscoveryAction> Stun3489NatTypeDiscovery::handle_test3(const 
 }
 
 StunDiscoveryAction Stun3489NatTypeDiscovery::create_classic_binding_request(const IpEndpoint& send_to) {
-    return StunDiscoveryAction{create_binding_request(0x00000000u), send_to};
+    return StunDiscoveryAction{create_binding_request(kClassicStunMagicCookie), send_to};
 }
 
 Stun5389NatBehaviorDiscovery::Stun5389NatBehaviorDiscovery(IpEndpoint server) : server_(std::move(server)) {}
