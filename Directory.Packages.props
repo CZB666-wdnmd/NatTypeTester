@@ -34,6 +34,7 @@
   <ItemGroup>
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.7" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.7" />
+    <PackageVersion Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="DTLS" Version="0.4.1" />
