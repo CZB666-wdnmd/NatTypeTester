@@ -593,6 +593,10 @@ std::optional<StunResponse> TcpSession::request(const StunDiscoveryAction& actio
         std::vector<std::uint8_t> payload = serialize(action.message);
         IpEndpoint local = socket_local_endpoint(socket_fd);
 
+        if (!local_bind_.has_value() || local_bind_->port == 0) {
+            local_bind_ = local;
+        }
+
         if (!use_tls_) {
             std::size_t offset = 0;
             while (offset < payload.size()) {
