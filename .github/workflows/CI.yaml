@@ -56,7 +56,9 @@ jobs:
         rid:
           - win-x64
           - linux-x64
+          - linux-musl-x64
           - linux-arm64
+          - linux-musl-arm64
           - osx-arm64
     steps:
       - uses: actions/checkout@v6
@@ -69,7 +71,12 @@ jobs:
 
       - name: Build
         working-directory: src/${{ env.ProjectName }}.${{ matrix.project }}
-        run: dotnet publish -r ${{ matrix.rid }}
+        run: |
+          if [[ "${{ matrix.rid }}" == linux-musl-* ]]; then
+            dotnet publish -r ${{ matrix.rid }} --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+          else
+            dotnet publish -r ${{ matrix.rid }}
+          fi
 
       - name: Upload
         uses: actions/upload-artifact@v7
@@ -241,7 +248,7 @@ jobs:
       - name: Package
         run: |
           mkdir -p builtfiles
-          for rid in win-x64 linux-x64 linux-arm64 osx-arm64; do
+          for rid in win-x64 linux-x64 linux-musl-x64 linux-arm64 linux-musl-arm64 osx-arm64; do
             7z a -mx9 "builtfiles/${{ env.ProjectName }}-${{ github.ref_name }}-${rid}.7z" "${{ env.ProjectName }}.Desktop-${rid}"
             7z a -mx9 "builtfiles/${{ env.ProjectName }}.Console-${{ github.ref_name }}-${rid}.7z" "${{ env.ProjectName }}.Console-${rid}"
           done
